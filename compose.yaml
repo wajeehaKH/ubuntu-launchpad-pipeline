@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: launchpad-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pipeline_user -d launchpad_pipeline"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  ingestion:
+    build: .
+    container_name: launchpad-ingestion
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+    command: ["sleep", "infinity"]
+
+volumes:
+  postgres_data:
