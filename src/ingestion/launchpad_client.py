@@ -35,7 +35,7 @@ def get_launchpad():
     )
 
 
-def fetch_new_tasks(limit):
+def fetch_new_tasks(limit, created_since=None):
     if limit <= 0:
         raise ValueError("limit must be greater than zero")
 
@@ -46,6 +46,9 @@ def fetch_new_tasks(limit):
         "memo": 75,
         "ws.start": 0,
     }
+
+    if created_since:
+         params["created_since"] = created_since
 
     url = (
         "https://api.launchpad.net/1.0/ubuntu?"
