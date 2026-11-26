@@ -4,7 +4,9 @@ from urllib.parse import urlencode
 import time
 from urllib.error import HTTPError
 
-def open_with_retry(url, timeout=30, max_attempts=4):
+# timeout 900 is sued as per compliant to ubuntu launchpad api guideline
+
+def open_with_retry(url, timeout=900, max_attempts=4):
     if max_attempts < 1:
         raise ValueError("max_attempts must be atleast 1")
     for attempt in range(max_attempts):

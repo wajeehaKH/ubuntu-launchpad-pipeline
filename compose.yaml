@@ -25,6 +25,7 @@ services:
       - .env
     volumes:
       - ./src:/app/src
+      - ./tests:/app/tests
     command: ["sleep", "infinity"]
 
 volumes:
