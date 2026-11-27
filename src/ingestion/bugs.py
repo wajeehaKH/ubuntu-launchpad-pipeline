@@ -20,8 +20,10 @@ def fetch_one_new_bug(lp):
     """Fetch one New Ubuntu bug and its associated task."""
     project = lp.projects["ubuntu"]
 
-    task = next(iter(project.searchTasks(status="New")))
+    task = next(iter(project.searchTasks(status="New")), None)
 
+    if task is None:
+       return None
     bug = lp.load(task.bug_link)
 
     return {
